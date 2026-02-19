@@ -77,15 +77,28 @@ const Dashboard = () => {
           <NavItem
             icon={<LayoutDashboard size={20} />}
             label="Dashboard"
+            to="/dashboard"
             active
           />
-          <NavItem icon={<FolderKanban size={20} />} label="All Projects" />
-          <NavItem icon={<Activity size={20} />} label="Activity" />
+          <NavItem
+            icon={<FolderKanban size={20} />}
+            label="All Projects"
+            to="/dashboard"
+          />
+          <NavItem
+            icon={<Activity size={20} />}
+            label="Activity"
+            to="/activity"
+          />
 
           <p className="px-2 mt-8 mb-2 text-xs font-semibold tracking-wider text-text-muted uppercase">
             Settings
           </p>
-          <NavItem icon={<Settings size={20} />} label="Preferences" />
+          <NavItem
+            icon={<Settings size={20} />}
+            label="Preferences"
+            to="/profile"
+          />
         </div>
 
         <div className="p-4 border-t border-dark-border">
@@ -310,9 +323,9 @@ const Dashboard = () => {
 };
 
 // Sub-components for cleaner code
-const NavItem = ({ icon, label, active }) => (
+const NavItem = ({ icon, label, to, active }) => (
   <Link
-    to="#"
+    to={to}
     className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-colors rounded-xl ${active ? "bg-primary/10 text-primary" : "text-text-muted hover:bg-dark-border hover:text-white"}`}
   >
     {icon}

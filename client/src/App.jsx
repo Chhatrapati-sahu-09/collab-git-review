@@ -13,6 +13,7 @@ import ProjectDetail from "./pages/ProjectDetail";
 import Editor from "./pages/Editor";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import Activity from "./pages/Activity";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/editor/:id" element={<Editor />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/activity" element={<Activity />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
