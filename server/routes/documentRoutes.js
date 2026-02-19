@@ -50,7 +50,7 @@ router.put(
       const document = await Document.findByIdAndUpdate(
         req.params.id,
         { automergeBinary: req.body },
-        { new: true },
+        { returnDocument: "after" },
       );
       res.json({ message: "Document state saved successfully" });
     } catch (error) {

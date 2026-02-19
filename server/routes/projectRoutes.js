@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.use(protect); // Protect all routes in this file
 
-// Create a new project
+// Create a new project (any authenticated user can create)
 router.post("/", async (req, res) => {
   try {
     const { name } = req.body;

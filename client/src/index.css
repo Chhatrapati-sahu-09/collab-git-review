@@ -3,5 +3,10 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gray-50 text-gray-900;
+  @apply bg-dark-bg text-text-main font-sans antialiased selection:bg-primary selection:text-white;
+}
+
+/* Custom utility for glassmorphism */
+.glass-panel {
+  @apply bg-dark-card/60 backdrop-blur-md border border-dark-border shadow-card rounded-xl;
 }
