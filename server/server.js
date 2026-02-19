@@ -11,12 +11,17 @@ const server = http.createServer(app);
 // Socket.io Setup with CORS
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // Your Vite frontend port
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     methods: ["GET", "POST", "PUT"],
   },
 });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 mongoose
@@ -32,6 +37,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/projects", require("./routes/projectRoutes"));
 app.use("/api/documents", require("./routes/documentRoutes"));
+app.use("/api/comments", require("./routes/commentRoutes"));
 
 // Socket.io Real-Time Sync Logic
 io.on("connection", (socket) => {
@@ -45,6 +51,11 @@ io.on("connection", (socket) => {
   socket.on("send-changes", ({ documentId, changes }) => {
     // Broadcast the CRDT changes to everyone ELSE in the room
     socket.to(documentId).emit("receive-changes", changes);
+  });
+
+  socket.on("new-comment", (documentId) => {
+    // Broadcast to everyone else in the document room that a new comment was added
+    socket.to(documentId).emit("receive-comment");
   });
 
   socket.on("disconnect", () => {

@@ -1,19 +1,21 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 import api from "../api/axios";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+// Initialize user from localStorage
+const getInitialUser = () => {
+  const token = localStorage.getItem("token");
+  const storedUser = localStorage.getItem("user");
+  if (token && storedUser) {
+    return JSON.parse(storedUser);
+  }
+  return null;
+};
 
-  // Check for existing session on load
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
-    if (token && storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(getInitialUser);
 
   const login = async (email, password) => {
     const res = await api.post("/auth/login", { email, password });
