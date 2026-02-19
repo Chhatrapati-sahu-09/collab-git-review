@@ -83,7 +83,7 @@ const Dashboard = () => {
           <NavItem
             icon={<FolderKanban size={20} />}
             label="All Projects"
-            to="/dashboard"
+            to="/projects"
           />
           <NavItem
             icon={<Activity size={20} />}

@@ -14,6 +14,7 @@ import Editor from "./pages/Editor";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import Activity from "./pages/Activity";
+import AllProjects from "./pages/AllProjects";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/projects" element={<AllProjects />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
           <Route path="/editor/:id" element={<Editor />} />
           <Route path="/profile" element={<Profile />} />
