@@ -18,7 +18,7 @@ const Admin = () => {
     {
       id: 1,
       name: "Chhatrapati Sahu",
-      email: "admin@synccode.dev",
+      email: "admin@syncforge.dev",
       role: "admin",
       status: "Active",
     },

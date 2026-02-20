@@ -66,7 +66,7 @@ const Dashboard = () => {
         <div className="flex items-center gap-3 px-6 h-20 border-b border-dark-border">
           <Terminal className="w-8 h-8 text-primary" />
           <span className="text-xl font-bold tracking-tight text-white">
-            SyncCode
+            SyncForge
           </span>
         </div>
 

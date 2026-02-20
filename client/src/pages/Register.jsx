@@ -42,7 +42,7 @@ const Register = () => {
           <div className="relative z-10">
             <div className="flex items-center justify-end gap-2 mb-8 text-accent">
               <span className="text-xl font-bold tracking-tight text-text-main">
-                SyncCode
+                SyncForge
               </span>
               <Terminal className="w-8 h-8" />
             </div>

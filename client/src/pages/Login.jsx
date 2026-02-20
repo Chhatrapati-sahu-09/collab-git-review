@@ -33,7 +33,7 @@ const Login = () => {
             <div className="flex items-center gap-2 mb-8 text-primary">
               <Terminal className="w-8 h-8" />
               <span className="text-xl font-bold tracking-tight text-text-main">
-                SyncCode
+                SyncForge
               </span>
             </div>
             <h2 className="text-3xl font-bold leading-tight text-white mb-4">
