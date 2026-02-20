@@ -1,10 +1,9 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import {
   User,
   Mail,
-  Key,
   Shield,
   Camera,
   ArrowLeft,
@@ -13,19 +12,44 @@ import {
 } from "lucide-react";
 
 const Profile = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, loading, navigate]);
+
   // Mock state for forms
-  const [name, setName] = useState(user?.name || "Chhatrapati Sahu");
-  const [email, setEmail] = useState(user?.email || "chhatrapati@example.com");
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
   const [isSaving, setIsSaving] = useState(false);
+
+  // Update form values when user loads
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (user && name === "" && email === "") {
+      setName(user.name || "");
+      setEmail(user.email || "");
+    }
+  }, [user]);
 
   const handleSave = (e) => {
     e.preventDefault();
     setIsSaving(true);
     setTimeout(() => setIsSaving(false), 1000); // Mock save delay
   };
+
+  // Show loading while auth state is being determined
+  if (loading || !user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-dark-bg">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-dark-bg text-text-main p-8">
@@ -143,61 +167,6 @@ const Profile = () => {
                     className={`px-6 py-2 text-sm font-semibold text-white rounded-xl transition-all shadow-glow ${isSaving ? "bg-success" : "bg-primary hover:bg-primaryHover"}`}
                   >
                     {isSaving ? "Saved!" : "Save Changes"}
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            {/* Password Section */}
-            <div className="glass-panel p-6 border border-dark-border">
-              <h3 className="text-lg font-bold text-white mb-6">
-                Change Password
-              </h3>
-              <form className="space-y-4">
-                <div>
-                  <label
-                    htmlFor="current-password"
-                    className="block text-sm font-medium text-text-muted mb-1.5"
-                  >
-                    Current Password
-                  </label>
-                  <div className="relative">
-                    <Key className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted w-4 h-4" />
-                    <input
-                      id="current-password"
-                      name="currentPassword"
-                      type="password"
-                      autoComplete="current-password"
-                      placeholder="••••••••"
-                      className="w-full pl-10 pr-4 py-2 bg-dark-bg border border-dark-border rounded-xl focus:outline-none focus:border-primary text-sm text-white transition-colors"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label
-                    htmlFor="new-password"
-                    className="block text-sm font-medium text-text-muted mb-1.5"
-                  >
-                    New Password
-                  </label>
-                  <div className="relative">
-                    <Key className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted w-4 h-4" />
-                    <input
-                      id="new-password"
-                      name="newPassword"
-                      type="password"
-                      autoComplete="new-password"
-                      placeholder="••••••••"
-                      className="w-full pl-10 pr-4 py-2 bg-dark-bg border border-dark-border rounded-xl focus:outline-none focus:border-primary text-sm text-white transition-colors"
-                    />
-                  </div>
-                </div>
-                <div className="pt-4 flex justify-end">
-                  <button
-                    type="button"
-                    className="px-6 py-2 text-sm font-semibold text-dark-bg bg-accent rounded-xl hover:opacity-90 transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)]"
-                  >
-                    Update Password
                   </button>
                 </div>
               </form>

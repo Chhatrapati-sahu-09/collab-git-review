@@ -5,7 +5,6 @@ import {
   GitMerge,
   Shield,
   Users,
-  Terminal,
   ArrowRight,
   CheckCircle2,
   Star,
@@ -22,6 +21,8 @@ import {
   Play,
 } from "lucide-react";
 import { useState } from "react";
+import logo from "../assets/logo.png";
+import heroIllustration from "../assets/hero-illustration.png";
 
 const Landing = () => {
   const [openFaq, setOpenFaq] = useState(null);
@@ -56,9 +57,8 @@ const Landing = () => {
       {/* Navbar */}
       <nav className="sticky top-0 z-50 border-b border-dark-border/50 bg-dark-bg/80 backdrop-blur-md">
         <div className="flex items-center justify-between max-w-7xl px-6 py-4 mx-auto">
-          <div className="flex items-center gap-2">
-            <Terminal className="w-8 h-8 text-primary" />
-            <span className="text-xl font-bold tracking-tight">SyncForge</span>
+          <div className="flex items-center">
+            <img src={logo} alt="SyncForge" className="h-16" />
           </div>
           <div className="hidden md:flex items-center gap-8">
             <a
@@ -104,40 +104,54 @@ const Landing = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 flex flex-col items-center px-6 pt-24 pb-20 mx-auto text-center max-w-7xl">
-        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 border rounded-full border-dark-border bg-dark-card/50 backdrop-blur-sm">
-          <span className="flex w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-          <span className="text-sm text-text-muted">
-            Powered by CRDT Architecture
-          </span>
-        </div>
+      <section className="relative z-10 px-6 pt-8 pb-20 mx-auto max-w-7xl">
+        <div className="flex flex-col lg:flex-row items-center gap-12">
+          {/* Left: Text Content */}
+          <div className="flex-1 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 border rounded-full border-dark-border bg-dark-card/50 backdrop-blur-sm">
+              <span className="flex w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+              <span className="text-sm text-text-muted">
+                Powered by CRDT Architecture
+              </span>
+            </div>
 
-        <h1 className="max-w-4xl mb-6 text-5xl font-extrabold tracking-tight md:text-7xl">
-          Collaborate on Code. <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-            In Real-Time.
-          </span>
-        </h1>
+            <h1 className="max-w-4xl mb-6 text-5xl font-extrabold tracking-tight md:text-7xl">
+              Collaborate on Code. <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
+                In Real-Time.
+              </span>
+            </h1>
 
-        <p className="max-w-2xl mb-10 text-lg leading-relaxed text-text-muted">
-          Build faster together. An advanced conflict-free replicated data type
-          engine ensures your code merges perfectly—every keystroke, every time.
-          No locking, no conflicts.
-        </p>
+            <p className="max-w-2xl mb-10 text-lg leading-relaxed text-text-muted">
+              Build faster together. An advanced conflict-free replicated data
+              type engine ensures your code merges perfectly—every keystroke,
+              every time. No locking, no conflicts.
+            </p>
 
-        <div className="flex flex-col gap-4 sm:flex-row">
-          <Link
-            to="/register"
-            className="flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white transition-all rounded-xl bg-primary hover:bg-primaryHover hover:shadow-glow active:scale-95"
-          >
-            Start Reviewing Free <ArrowRight size={20} />
-          </Link>
-          <a
-            href="#demo"
-            className="flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold transition-all border glass-panel text-text-main hover:bg-dark-border"
-          >
-            <Play size={20} /> Watch Demo
-          </a>
+            <div className="flex flex-col gap-4 sm:flex-row lg:justify-start justify-center">
+              <Link
+                to="/register"
+                className="flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold text-white transition-all rounded-xl bg-primary hover:bg-primaryHover hover:shadow-glow active:scale-95"
+              >
+                Start Reviewing Free <ArrowRight size={20} />
+              </Link>
+              <a
+                href="#demo"
+                className="flex items-center justify-center gap-2 px-8 py-4 text-lg font-semibold transition-all border glass-panel text-text-main hover:bg-dark-border"
+              >
+                <Play size={20} /> Watch Demo
+              </a>
+            </div>
+          </div>
+
+          {/* Right: Hero Illustration */}
+          <div className="flex-1 flex justify-center lg:justify-end">
+            <img
+              src={heroIllustration}
+              alt="Code collaboration illustration"
+              className="w-full max-w-4xl drop-shadow-2xl"
+            />
+          </div>
         </div>
 
         {/* Trust Badges */}
@@ -159,7 +173,7 @@ const Landing = () => {
         {/* Abstract Mockup Area */}
         <div
           id="demo"
-          className="w-full max-w-5xl mt-20 border glass-panel relative overflow-hidden group"
+          className="w-full max-w-5xl mx-auto mt-20 border glass-panel relative overflow-hidden group rounded-xl"
         >
           {/* Fake Editor Header */}
           <div className="flex items-center px-4 py-3 border-b border-dark-border bg-dark-bg/50">
@@ -552,11 +566,8 @@ const Landing = () => {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             {/* Brand Column */}
             <div className="col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <Terminal className="w-8 h-8 text-primary" />
-                <span className="text-xl font-bold tracking-tight">
-                  SyncForge
-                </span>
+              <div className="flex items-center mb-4">
+                <img src={logo} alt="SyncForge" className="h-16" />
               </div>
               <p className="text-text-muted text-sm mb-6 max-w-xs">
                 The modern platform for real-time collaborative code review.

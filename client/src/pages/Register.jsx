@@ -1,15 +1,8 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import {
-  Terminal,
-  Github,
-  Chrome,
-  Mail,
-  Lock,
-  User,
-  ArrowRight,
-} from "lucide-react";
+import { Github, Chrome, Mail, Lock, User, ArrowRight } from "lucide-react";
+import logo from "../assets/logo.png";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -17,8 +10,15 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const { register } = useContext(AuthContext);
+  const { user, register } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Redirect to dashboard if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,11 +40,8 @@ const Register = () => {
         <div className="md:w-5/12 hidden md:flex flex-col justify-between p-10 bg-gradient-to-bl from-dark-bg to-dark-card border-l border-dark-border relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjMGYxNzJhIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlPSIjMzM0MTU1IiBzdHJva2Utd2lkdGg9IjAuNSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-20"></div>
           <div className="relative z-10">
-            <div className="flex items-center justify-end gap-2 mb-8 text-accent">
-              <span className="text-xl font-bold tracking-tight text-text-main">
-                SyncForge
-              </span>
-              <Terminal className="w-8 h-8" />
+            <div className="flex items-center justify-end mb-8">
+              <img src={logo} alt="SyncForge" className="h-16" />
             </div>
             <h2 className="text-3xl font-bold leading-tight text-white mb-4 text-right">
               Start collaborating without conflicts.

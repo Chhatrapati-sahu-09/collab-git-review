@@ -23,12 +23,21 @@ const AllProjects = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("grid"); // grid or list
 
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // Redirect to login if not authenticated
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    if (!loading && !user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, loading, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      fetchProjects();
+    }
+  }, [user]);
 
   const fetchProjects = async () => {
     try {
@@ -65,6 +74,15 @@ const AllProjects = () => {
       year: "numeric",
     });
   };
+
+  // Show loading while auth state is being determined
+  if (loading || !user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-dark-bg">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-dark-bg text-text-main">

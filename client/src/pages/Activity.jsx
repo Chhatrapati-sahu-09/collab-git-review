@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import {
   Terminal,
   ArrowLeft,
@@ -10,6 +12,16 @@ import {
 } from "lucide-react";
 
 const Activity = () => {
+  const { user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, loading, navigate]);
+
   // Mock activity data
   const activities = [
     {
@@ -63,6 +75,15 @@ const Activity = () => {
       icon: <GitCommit className="text-primary" size={18} />,
     },
   ];
+
+  // Show loading while auth state is being determined
+  if (loading || !user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-dark-bg">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-dark-bg text-text-main">

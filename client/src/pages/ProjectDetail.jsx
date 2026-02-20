@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import { AuthContext } from "../context/AuthContext";
 import {
   ArrowLeft,
   FileCode2,
@@ -18,15 +19,25 @@ import {
 const ProjectDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user, loading } = useContext(AuthContext);
 
   const [documents, setDocuments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newDocTitle, setNewDocTitle] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
+  // Redirect to login if not authenticated
   useEffect(() => {
-    fetchDocuments();
-  }, [id]);
+    if (!loading && !user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, loading, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      fetchDocuments();
+    }
+  }, [id, user]);
 
   const fetchDocuments = async () => {
     try {
@@ -54,6 +65,15 @@ const ProjectDetail = () => {
       console.error("Error creating document", error);
     }
   };
+
+  // Show loading while auth state is being determined
+  if (loading || !user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-dark-bg">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-dark-bg text-text-main">

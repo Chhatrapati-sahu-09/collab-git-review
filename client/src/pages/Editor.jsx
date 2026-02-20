@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as Automerge from "@automerge/automerge";
 import io from "socket.io-client";
 import api from "../api/axios";
+import { AuthContext } from "../context/AuthContext";
 
 // Editor Imports
 import CodeMirror from "@uiw/react-codemirror";
@@ -31,6 +32,14 @@ const socket = io(import.meta.env.VITE_API_URL || "http://localhost:5000");
 const Editor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user, loading } = useContext(AuthContext);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, loading, navigate]);
 
   // Core State
   const [text, setText] = useState("");
@@ -196,6 +205,15 @@ const Editor = () => {
         return <span className="text-xs text-text-muted">Connecting...</span>;
     }
   };
+
+  // Show loading while auth state is being determined
+  if (loading || !user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-dark-bg">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (!docRef.current)
     return (

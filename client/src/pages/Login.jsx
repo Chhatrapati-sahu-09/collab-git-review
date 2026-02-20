@@ -1,14 +1,22 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { Terminal, Github, Chrome, Mail, Lock, ArrowRight } from "lucide-react";
+import { Github, Chrome, Mail, Lock, ArrowRight } from "lucide-react";
+import logo from "../assets/logo.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { login } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Redirect to dashboard if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,11 +38,8 @@ const Login = () => {
         <div className="md:w-5/12 hidden md:flex flex-col justify-between p-10 bg-gradient-to-br from-dark-bg to-dark-card border-r border-dark-border relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjMGYxNzJhIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlPSIjMzM0MTU1IiBzdHJva2Utd2lkdGg9IjAuNSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-20"></div>
           <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-8 text-primary">
-              <Terminal className="w-8 h-8" />
-              <span className="text-xl font-bold tracking-tight text-text-main">
-                SyncForge
-              </span>
+            <div className="flex items-center mb-8">
+              <img src={logo} alt="SyncForge" className="h-16" />
             </div>
             <h2 className="text-3xl font-bold leading-tight text-white mb-4">
               Welcome back to the future of code review.

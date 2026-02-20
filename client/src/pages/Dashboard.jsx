@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import { AuthContext } from "../context/AuthContext";
 import {
-  Terminal,
   LayoutDashboard,
   FolderKanban,
   Activity,
@@ -16,6 +15,7 @@ import {
   Users,
   X,
 } from "lucide-react";
+import logo from "../assets/logo.png";
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -23,12 +23,21 @@ const Dashboard = () => {
   const [newProjectName, setNewProjectName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const { user, logout } = useContext(AuthContext);
+  const { user, loading, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // Redirect to login if not authenticated
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    if (!loading && !user) {
+      navigate("/login", { replace: true });
+    }
+  }, [user, loading, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      fetchProjects();
+    }
+  }, [user]);
 
   const fetchProjects = async () => {
     try {
@@ -59,15 +68,21 @@ const Dashboard = () => {
     navigate("/login");
   };
 
+  // Show loading while auth state is being determined
+  if (loading || !user) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-dark-bg">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen overflow-hidden bg-dark-bg text-text-main">
       {/* Sidebar (Left) */}
       <aside className="flex flex-col w-64 border-r bg-dark-card border-dark-border">
-        <div className="flex items-center gap-3 px-6 h-20 border-b border-dark-border">
-          <Terminal className="w-8 h-8 text-primary" />
-          <span className="text-xl font-bold tracking-tight text-white">
-            SyncForge
-          </span>
+        <div className="flex items-center px-6 h-20 border-b border-dark-border">
+          <img src={logo} alt="SyncForge" className="h-16" />
         </div>
 
         <div className="flex-1 py-6 px-4 space-y-1 overflow-y-auto">

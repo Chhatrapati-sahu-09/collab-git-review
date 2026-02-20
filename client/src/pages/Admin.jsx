@@ -1,4 +1,6 @@
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import {
   Users,
   FileCode2,
@@ -11,7 +13,17 @@ import {
 } from "lucide-react";
 
 const Admin = () => {
+  const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Redirect to login if not authenticated or not admin
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login", { replace: true });
+    } else if (!loading && user && user.role !== "admin") {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user, loading, navigate]);
 
   // Mock Data for UI
   const mockUsers = [
@@ -44,6 +56,15 @@ const Admin = () => {
       status: "Banned",
     },
   ];
+
+  // Show loading while auth state is being determined
+  if (loading || !user || user.role !== "admin") {
+    return (
+      <div className="flex items-center justify-center h-screen bg-dark-bg">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-dark-bg text-text-main p-8">
