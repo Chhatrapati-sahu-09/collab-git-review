@@ -1,86 +1,101 @@
-# SyncCode
+# Collab Code Review
 
-Real-Time Collaborative Code Review Platform (CRDT Powered)
+Collaborative code review web application — React frontend (Vite) and Node/Express backend.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
-![React](https://img.shields.io/badge/React-18-61DAFB.svg?logo=react)
-![Node.js](https://img.shields.io/badge/Node.js-20-339933.svg?logo=nodedotjs)
-![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248.svg?logo=mongodb)
-![Socket.io](https://img.shields.io/badge/Socket.io-Realtime-black?logo=socketdotio)
+## Table of contents
+
+- [Prerequisites](#prerequisites)
+- [Quickstart](#quickstart)
+- [Environment](#environment)
+- [Run tests](#run-tests)
+- [Project structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Prerequisites
+
+- Node.js 18+ (or compatible LTS)
+- npm (or yarn)
+- MongoDB (local or hosted) if running the server locally
+
+## Quickstart
+
+1. Clone the repository:
+
+```bash
+git clone git@github.com:Chhatrapati-sahu-09/collab-git-review.git
+cd collab-git-review
+```
+
+2. Start the client (Vite):
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+3. Start the server (Express) in a separate terminal:
+
+```bash
+cd server
+npm install
+npm run dev
+```
+
+Default ports: client (Vite) 5173, server 3000.
+
+## Environment
+
+Create a `.env` file in the `server/` directory with values similar to:
+
+```
+PORT=3000
+MONGO_URI=mongodb://localhost:27017/collab
+JWT_SECRET=replace_with_secure_secret
+```
+
+Keep secrets out of source control and use a secrets manager for production.
+
+## Run tests
+
+Server tests (Jest/Mocha depending on project config):
+
+```bash
+cd server
+npm test
+```
+
+Client tests (if present):
+
+```bash
+cd client
+npm test
+```
+
+## Project structure
+
+- `client/` — React + Vite frontend
+- `server/` — Node/Express backend (routes, models, middleware, tests)
+
+## Contributing
+
+Contributions welcome. Typical workflow:
+
+```bash
+git checkout -b feature/your-feature
+# implement changes
+git add .
+git commit -m "docs: add README or feat: ..."
+git push -u origin feature/your-feature
+```
+
+Create a Pull Request against the `main` branch when ready.
+
+## License
+
+Specify your license here (e.g., MIT) or remove this section.
 
 ---
 
-## Overview
-
-**SyncCode** is a real-time collaborative code editor and review platform built using the MERN stack and powered by **Conflict-Free Replicated Data Types (CRDTs)** via Automerge.
-
-The platform enables multiple developers to edit and review code simultaneously without conflicts. Unlike traditional collaborative systems that depend on server-side locking or Operational Transformation (OT), SyncCode uses CRDTs to guarantee mathematically consistent state merging across distributed clients.
-
-This design ensures reliable concurrent editing with no locking mechanisms and no merge conflicts.
-
----
-
-## Core Features
-
-### Real-Time Collaborative Editing
-
-* Built on Automerge CRDT technology
-* Multiple users can edit the same document concurrently
-* Automatic state reconciliation across clients
-* No locking or overwrite conflicts
-
----
-
-### Optimistic UI with WebSockets
-
-* Instant local updates for low latency
-* Diff synchronization using Socket.io
-* Room-based document collaboration
-* Real-time update propagation
-
----
-
-### Line-Based Code Reviews
-
-* Attach comments to specific lines
-* Threaded review discussions
-* Comment resolution system
-* Pull-request style review workflow
-
----
-
-### Version History
-
-* Immutable CRDT state snapshots
-* Restore previous document versions
-* Timestamp-based history
-* Diff-based recovery mechanism
-
----
-
-### Role-Based Access Control
-
-Authentication and authorization include:
-
-* JWT-based authentication
-* Password hashing with bcrypt
-* Role management
-
-Supported roles:
-
-* `admin`
-* `reviewer`
-* `contributor`
-
-Protected API endpoints enforce access policies.
-
----
-
-### Developer Experience
-
-* Dark-first user interface
-* CodeMirror editor integration
-* Multi-user cursor indicators
-* Live synchronization status
-* Fully responsive interface
+If you want, I can add a `client/README.md` with client-specific scripts and details, or generate API docs for the server.
